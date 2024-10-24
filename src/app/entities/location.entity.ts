@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CanNull } from '../types';
 import { BaseEntity } from './base.entity';
 
 @Entity()
@@ -57,7 +58,7 @@ export class Location extends BaseEntity {
     type: String,
   })
   @Column('uuid', { nullable: true })
-  public parentId!: string | null;
+  public parentId!: CanNull<string>;
 
   @ManyToOne(() => Location, category => category.children, {
     onDelete: 'CASCADE',

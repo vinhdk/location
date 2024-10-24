@@ -6,7 +6,7 @@ import {
   Repository,
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { QueryRequest } from '../types';
+import { CanNull, QueryRequest } from '../types';
 import { BaseVM } from '../vms';
 
 /**
@@ -65,12 +65,12 @@ export class BaseService<T extends BaseVM> {
    * @description Find a new entity by id
    * @param id {string} - Id of entity to find
    * @param extraQuery {FindOneOptions<T> | undefined} - Extra query options, default is empty object
-   * @returns {Promise<T | null>} Found entity
+   * @returns {Promise<CanNull<T>>} Found entity
    */
   public async findByIdAsync(
     id: string,
     extraQuery: FindOneOptions<T> = {}
-  ): Promise<T | null> {
+  ): Promise<CanNull<T>> {
     if (!id) {
       return null;
     }

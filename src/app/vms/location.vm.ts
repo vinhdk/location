@@ -1,3 +1,4 @@
+import { CanNull } from '../types';
 import { BaseVM } from './base.vm';
 
 export type LocationVM = LocationWithoutIdVM & BaseVM;
@@ -35,5 +36,5 @@ export interface LocationWithoutIdVM {
    * Parent of location
    * @example null
    */
-  parentId: string | null;
+  parentId: CanNull<string>;
 }

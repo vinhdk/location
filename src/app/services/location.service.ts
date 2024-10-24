@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Location } from '../entities';
-import { QueryRequest } from '../types';
+import { CanNull, QueryRequest } from '../types';
 import { LocationWithRelationshipVM } from '../vms';
 import { BaseService } from './base.service';
 
@@ -18,11 +18,11 @@ export class LocationService extends BaseService<LocationWithRelationshipVM> {
   /**
    * @description Get a location by id, with their relationship
    * @param id {string} - Id of location to get
-   * @returns {Promise<LocationWithRelationshipVM | null>} Found location with their relationship
+   * @returns {Promise<CanNull<LocationWithRelationshipVM>>} Found location with their relationship
    */
   public async getTreeByIdAsync(
     id: string
-  ): Promise<LocationWithRelationshipVM | null> {
+  ): Promise<CanNull<LocationWithRelationshipVM>> {
     const location = await this.findByIdAsync(id, {
       relations: ['children'],
     });
