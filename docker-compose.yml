@@ -1,0 +1,36 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - ./.env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - postgres
+
+  api:
+    container_name: api
+    image: api
+    build:
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./.env
+    ports:
+      - 3000:3000
+    networks:
+      - postgres
+    depends_on:
+      postgres:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+
+networks:
+  postgres:
+    driver: bridge
