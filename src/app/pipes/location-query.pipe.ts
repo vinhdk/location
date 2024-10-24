@@ -14,10 +14,14 @@ export class LocationQueryPipe implements PipeTransform {
   ): QueryRequest<LocationWithRelationshipVM> {
     return {
       ...omit(query, 'search'),
-      where: ['name', 'building', 'number', 'area'].map(key => ({
-        [key]: ILike(`%${query.search ?? ''}%`),
-        ...(query.withRelationship ? { parentId: IsNull() } : {}),
-      })),
+      where: query.search
+        ? ['name', 'building', 'number', 'area'].map(key => ({
+            [key]: ILike(`%${query.search}%`),
+            ...(`${query.withRelationship}` === 'true'
+              ? { parentId: IsNull() }
+              : {}),
+          }))
+        : [],
     };
   }
 }

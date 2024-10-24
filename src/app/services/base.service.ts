@@ -122,8 +122,8 @@ export class BaseService<T extends BaseVM> {
     const defaultPagination = pagination ?? { limit: 10, offset: 0 };
     return {
       where,
-      take: defaultPagination.limit ?? 10,
-      skip: (defaultPagination.offset ?? 0) * (defaultPagination.limit ?? 10),
+      take: +(defaultPagination.limit ?? 10),
+      skip: +(defaultPagination.offset ?? 0) * +(defaultPagination.limit ?? 10),
       order,
     };
   }

@@ -387,14 +387,15 @@ export class LocationController {
     query: QueryRequest<LocationWithRelationshipVM>,
     @Query('withRelationship') withRelationship: boolean
   ) {
-    const { records, total } = await (withRelationship
-      ? this._service.queryAllRootTreeAsync(query)
-      : this._service.queryAsync(query));
+    const method =
+      `${withRelationship}` === 'true' ? 'queryAllRootTreeAsync' : 'queryAsync';
+    const { records, total } = await this._service[method](query);
 
     console.log(`[LocationService] query locations successfully: ${total}`);
 
     return HttpSuccessOperators.createOkResponse(records, {
-      ...query.pagination,
+      limit: +query.pagination.limit,
+      offset: +query.pagination.offset,
       total,
     });
   }
