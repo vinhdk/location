@@ -27,7 +27,7 @@ import {
 import { LocationQueryPipe, LocationValidatorPipe } from '../../pipes';
 import { HttpExceptionOperators, HttpSuccessOperators } from '../../responses';
 import { LocationService } from '../../services';
-import { QueryRequest } from '../../types';
+import { PaginationMetadata, QueryRequest } from '../../types';
 import { LocationWithoutIdVM, LocationWithRelationshipVM } from '../../vms';
 
 @ApiTags('locations')
@@ -393,7 +393,10 @@ export class LocationController {
 
     console.log(`[LocationService] query locations successfully: ${total}`);
 
-    return HttpSuccessOperators.createOkResponse(records, {
+    return HttpSuccessOperators.createOkResponse<
+      LocationWithRelationshipVM[],
+      PaginationMetadata
+    >(records, {
       limit: +query.pagination.limit,
       offset: +query.pagination.offset,
       total,
