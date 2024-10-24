@@ -10,13 +10,13 @@ export class LocationValidatorPipe<T extends Partial<LocationWithoutIdVM>>
   public constructor(private readonly partial = false) {}
 
   public transform(value: T): T {
-    if (this.partial) {
-      return value;
-    }
+    const validationKeys = this.partial
+      ? Object.keys(value)
+      : ['building', 'name', 'number', 'area'];
 
     const keys = Object.keys(value);
 
-    const fields = ['building', 'name', 'number', 'area']
+    const fields = validationKeys
       .map(key =>
         keys.includes(key)
           ? !value[key]
